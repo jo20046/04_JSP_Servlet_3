@@ -10,22 +10,22 @@ import java.util.Scanner;
 public class Feedreader {
 
     private final String[] urls;
-    private final boolean useSecure;
     private String htmlContent = "";
     private String rssContent = "";
     private String rssFeedURL = "";
     private boolean connectionOK = false;
 
-    Feedreader(String[] urls, boolean useSecure) {
+    public Feedreader(String[] urls) {
         this.urls = urls;
-        this.useSecure = useSecure;
-
     }
 
-    void printRssContent() {
+    public String getRssContent() {
+
+        StringBuilder result = new StringBuilder();
 
         for (String urlString : urls) {
 
+            result.append("<h3>").append("Schlagzeilen von ").append(urlString).append("</h3>");
 
             try {
 
@@ -41,15 +41,18 @@ public class Feedreader {
                 Parser parser = new Parser(rssContent);
                 ArrayList<Article> articles = parser.getArticles();
                 for (Article article : articles) {
-                    System.out.println("Titel: " + article.getTitle());
-                    System.out.println("Link: " + article.getLink());
-                    System.out.println();
+//                    System.out.println("Titel: " + article.getTitle());
+//                    System.out.println("Link: " + article.getLink());
+//                    System.out.println();
+                    result.append(article.getTitle()).append("<br><br>");
                 }
+                result.append("<br><br><br>");
 
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        return result.toString();
     }
 
     /**
@@ -96,9 +99,7 @@ public class Feedreader {
      */
     private HttpURLConnection buildHttpConnection(String urlInput) throws IOException {
 
-        if (useSecure && !urlInput.startsWith("https://")) urlInput = "https://" + urlInput;
-        if (!useSecure && !urlInput.startsWith("http://")) urlInput = "http://" + urlInput;
-
+        if (!urlInput.startsWith("https://")) urlInput = "https://" + urlInput;
         URL url = new URL(urlInput);
         HttpURLConnection huc = (HttpURLConnection) url.openConnection();
         huc.setRequestMethod("GET");

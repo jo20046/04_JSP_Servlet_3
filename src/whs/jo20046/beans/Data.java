@@ -2,8 +2,9 @@ package whs.jo20046.beans;
 
 public class Data {
 
-    String[] urls = new String[3];
-    String[] notFoundTexts = new String[3];
+    private String[] urls = new String[3];
+    private String[] notFoundTexts = new String[3];
+    private String articles;
 
     public Data() {
         for (int i = 0, urlsLength = urls.length; i < urlsLength; i++) {
@@ -52,5 +53,13 @@ public class Data {
             return true;
         }
         return false;
+    }
+
+    public String getArticles() {
+        return articles;
+    }
+
+    public void setArticles(String articles) {
+        this.articles = articles;
     }
 }
