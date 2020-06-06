@@ -9,13 +9,13 @@ import java.util.Scanner;
 
 public class Feedreader {
 
-    private final String[] urls;
+    private final ArrayList<String> urls;
     private String htmlContent = "";
     private String rssContent = "";
     private String rssFeedURL = "";
     private boolean connectionOK = false;
 
-    public Feedreader(String[] urls) {
+    public Feedreader(ArrayList<String> urls) {
         this.urls = urls;
     }
 

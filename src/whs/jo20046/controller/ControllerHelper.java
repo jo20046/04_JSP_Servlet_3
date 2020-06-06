@@ -21,6 +21,7 @@ public class ControllerHelper extends HelperBase {
     @Override
     public void doPost() throws IOException {
 
+        // TODO: NullPointer an dieser Stelle wenn man zu oft sumbittet (?)
         if (request.getSession().getAttribute("helper") == null) {
             request.getSession().setAttribute("helper", this);
         }
@@ -38,12 +39,14 @@ public class ControllerHelper extends HelperBase {
 
     private void checkURLs() {
 
-        data.setUrl(0, request.getParameter("url1"));
-        data.setUrl(1, request.getParameter("url2"));
-        data.setUrl(2, request.getParameter("url3"));
         allConnectionsOk = true;
 
-        for (int i = 0, urlsLength = data.getUrls().length; i < urlsLength; i++) {
+        data.setMembers(Integer.parseInt(request.getParameter("member")));
+        for (int i = 0, members = data.getMembers(); i < members; i++) {
+            data.addUrl(request.getParameter("url" + i));
+        }
+
+        for (int i = 0, urlsLength = data.getUrls().size(); i < urlsLength; i++) {
             String urlInput = data.getUrl(i);
 
             if (!urlInput.startsWith("https://")) {
@@ -55,10 +58,10 @@ public class ControllerHelper extends HelperBase {
                 HttpURLConnection huc = (HttpURLConnection) url.openConnection();
                 huc.setRequestMethod("GET");
                 huc.getResponseCode();  // throws Exception if URL not found
-                data.setNotFoundText(i, "");
+                data.removeNotFound(i);
             } catch (Exception e) {
                 allConnectionsOk = false;
-                data.setNotFoundText(i, "Eingebene URL konnte nicht gefunden werden.");
+                data.addNotFound(i);
             }
         }
     }
@@ -71,7 +74,14 @@ public class ControllerHelper extends HelperBase {
     private void redirect() throws IOException {
 
         if (allConnectionsOk) response.sendRedirect("whs/jo20046/ausgabe.jsp");
-        else response.sendRedirect("whs/jo20046/eingabe.jsp");
+        else {
+            data.setNotFoundUrls("Folgende URLs konnten nicht erreicht werden:<br>");
+            for (Integer i : data.getNotFound()) {
+                data.setNotFoundUrls(data.getNotFoundUrls() + data.getUrl(i) + "<br>");
+            }
+            data.clearUrls();
+            response.sendRedirect("whs/jo20046/hinweis.jsp");
+        }
     }
 
 }

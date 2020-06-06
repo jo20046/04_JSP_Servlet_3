@@ -7,6 +7,7 @@
 <body>
 <%
     Data data = (Data) session.getAttribute("Data");
+    if (data == null) data = new Data();
 %>
 <%=data.getArticles()%>
 

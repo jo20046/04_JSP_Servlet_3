@@ -1,24 +1,35 @@
-<%@ page import="whs.jo20046.beans.Data" %>
 <html>
 <head>
-    <title>Eingabe</title>
+    <script type='text/javascript'>
+        function addFields() {
+            // Number of inputs to create
+            var number = document.getElementById("member").value;
+            // Container <div> where dynamic content will be placed
+            var container = document.getElementById("container");
+            // Clear previous contents of the container
+            while (container.hasChildNodes()) {
+                container.removeChild(container.lastChild);
+            }
+            for (i = 0; i < number; i++) {
+                // Append a node with a random text
+                container.appendChild(document.createTextNode("Member " + (i + 1)));
+                // Create an <input> element, set its type and name attributes
+                var input = document.createElement("input");
+                input.type = "text";
+                input.name = "url" + i;
+                container.appendChild(input);
+                // Append a line break
+                container.appendChild(document.createElement("br"));
+            }
+        }
+    </script>
 </head>
 <body>
-<%
-    Data data = (Data) session.getAttribute("Data");
-    if (data == null) data = new Data();
-%>
 <form method="post" action="${pageContext.request.contextPath}/check">
-    <label>1. URL:
-        <input type="text" name="url1" value="<%=data.getUrl(0)%>"> <%=data.getNotFoundText(0)%><br><br>
-    </label>
-    <label>2. URL:
-        <input type="text" name="url2" value="<%=data.getUrl(1)%>"> <%=data.getNotFoundText(1)%><br><br>
-    </label>
-    <label>3. URL:
-        <input type="text" name="url3" value="<%=data.getUrl(2)%>"> <%=data.getNotFoundText(2)%><br><br>
-    </label>
     <input type="submit" value="Best&auml;tigen">
+    <input type="text" id="member" name="member" value="">Number of members: (max. 10)<br/>
+    <a href="#" id="filldetails" onclick="addFields()">Fill Details</a>
+    <div id="container"/>
 </form>
 </body>
 </html>

@@ -1,58 +1,62 @@
 package whs.jo20046.beans;
 
+import java.util.ArrayList;
+import java.util.LinkedHashSet;
+import java.util.Set;
+
 public class Data {
 
-    private String[] urls = new String[3];
-    private String[] notFoundTexts = new String[3];
+    private ArrayList<String> urls = new ArrayList<>();
+    private Set<Integer> notFound = new LinkedHashSet<>();
     private String articles;
+    private String notFoundUrls;
+    private int members;
 
     public Data() {
-        for (int i = 0, urlsLength = urls.length; i < urlsLength; i++) {
-            setUrl(i, "");
-        }
-        for (int i = 0, notFoundTextsLength = notFoundTexts.length; i < notFoundTextsLength; i++) {
-            setNotFoundText(i, "");
-        }
     }
 
-    public String[] getUrls() {
+    public ArrayList<String> getUrls() {
         return urls;
     }
 
-    public void setUrls(String[] urls) {
+    public void setUrls(ArrayList<String> urls) {
         this.urls = urls;
     }
 
     public String getUrl(int index) {
-        return index >= 0 && index < urls.length ? urls[index] : "Index " + index + " out of bounds";
+        return index >= 0 && index < urls.size() ? urls.get(index) : "Index " + index + " out of bounds";
     }
 
-    public boolean setUrl(int index, String newValue) {
-        if (index >= 0 && index < urls.length) {
-            urls[index] = newValue;
-            return true;
-        }
-        return false;
+    public void setUrl(int index, String newValue) {
+        urls.set(index, newValue);
     }
 
-    public String[] getNotFoundTexts() {
-        return notFoundTexts;
+    public void addUrl(String newUrl) {
+        urls.add(newUrl);
     }
 
-    public void setNotFoundTexts(String[] notFoundTexts) {
-        this.notFoundTexts = notFoundTexts;
+    public void clearUrls() {
+        urls.clear();
     }
 
-    public String getNotFoundText(int index) {
-        return index >= 0 && index < notFoundTexts.length ? notFoundTexts[index] : "Index " + index + " out of bounds";
+    public Set<Integer> getNotFound() {
+        return notFound;
     }
 
-    public boolean setNotFoundText(int index, String newValue) {
-        if (index >= 0 && index < notFoundTexts.length) {
-            notFoundTexts[index] = newValue;
-            return true;
-        }
-        return false;
+    public void setNotFound(Set<Integer> notFound) {
+        this.notFound = notFound;
+    }
+
+    public boolean notFoundContains(int val) {
+        return notFound.contains(val);
+    }
+
+    public void addNotFound(int newValue) {
+        notFound.add(newValue);
+    }
+
+    public void removeNotFound(int val) {
+        notFound.remove(val);
     }
 
     public String getArticles() {
@@ -61,5 +65,21 @@ public class Data {
 
     public void setArticles(String articles) {
         this.articles = articles;
+    }
+
+    public String getNotFoundUrls() {
+        return notFoundUrls;
+    }
+
+    public void setNotFoundUrls(String notFoundUrls) {
+        this.notFoundUrls = notFoundUrls;
+    }
+
+    public int getMembers() {
+        return members;
+    }
+
+    public void setMembers(int members) {
+        this.members = members;
     }
 }
