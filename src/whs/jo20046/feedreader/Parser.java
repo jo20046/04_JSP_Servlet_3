@@ -17,13 +17,11 @@ public class Parser extends DefaultHandler {
     private ArrayList<Article> articles;
     private Article article;
     private String data;
-    private String rssContent;
     private boolean hasTitle = false;
     private boolean hasLink = false;
     private boolean readAllowed = false;
 
     Parser(String rssContent) {
-        this.rssContent = rssContent;
         try {
             SAXParser parser = SAXParserFactory.newInstance().newSAXParser();
             parser.parse(new InputSource(new StringReader(rssContent)), this);

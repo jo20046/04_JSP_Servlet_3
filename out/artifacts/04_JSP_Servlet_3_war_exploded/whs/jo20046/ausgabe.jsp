@@ -8,9 +8,7 @@
 <%
     Data data = (Data) session.getAttribute("Data");
 %>
-url1: <%= data.getUrl(0) %><br>
-url2: <%= data.getUrl(1) %><br>
-url3: <%= data.getUrl(2) %><br>
+<%=data.getArticles()%>
 
 </body>
 </html>

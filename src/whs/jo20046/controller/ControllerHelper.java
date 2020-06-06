@@ -12,7 +12,7 @@ import java.net.URL;
 public class ControllerHelper extends HelperBase {
 
     protected Data data = new Data();
-    private boolean allConnectionsOk = true;
+    private boolean allConnectionsOk;
 
     public ControllerHelper(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
@@ -36,11 +36,12 @@ public class ControllerHelper extends HelperBase {
         redirect();
     }
 
-    private void checkURLs() throws IOException {
+    private void checkURLs() {
 
         data.setUrl(0, request.getParameter("url1"));
         data.setUrl(1, request.getParameter("url2"));
         data.setUrl(2, request.getParameter("url3"));
+        allConnectionsOk = true;
 
         for (int i = 0, urlsLength = data.getUrls().length; i < urlsLength; i++) {
             String urlInput = data.getUrl(i);

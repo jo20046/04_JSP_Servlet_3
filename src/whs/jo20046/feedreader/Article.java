@@ -9,12 +9,12 @@ public class Article {
         return title;
     }
 
-    public String getLink() {
-        return link;
-    }
-
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getLink() {
+        return link;
     }
 
     public void setLink(String link) {

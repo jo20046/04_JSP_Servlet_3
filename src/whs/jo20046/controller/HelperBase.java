@@ -15,7 +15,9 @@ public class HelperBase {
         this.response = response;
     }
 
-    public void doGet() throws ServletException, IOException {}
+    public void doGet() throws ServletException, IOException {
+    }
 
-    public void doPost() throws ServletException, IOException {}
+    public void doPost() throws ServletException, IOException {
+    }
 }

@@ -41,10 +41,7 @@ public class Feedreader {
                 Parser parser = new Parser(rssContent);
                 ArrayList<Article> articles = parser.getArticles();
                 for (Article article : articles) {
-//                    System.out.println("Titel: " + article.getTitle());
-//                    System.out.println("Link: " + article.getLink());
-//                    System.out.println();
-                    result.append(article.getTitle()).append("<br><br>");
+                    result.append("<a href=\"").append(article.getLink()).append("\">").append(article.getTitle()).append("</a><br><br>");
                 }
                 result.append("<br><br><br>");
 
