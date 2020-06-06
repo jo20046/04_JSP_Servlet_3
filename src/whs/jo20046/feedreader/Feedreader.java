@@ -47,6 +47,7 @@ public class Feedreader {
 
             } catch (IOException e) {
                 e.printStackTrace();
+                result.append("Keinen RSS-Feed auf " + urlString + " gefunden.").append("<br><br><br>");
             }
         }
         return result.toString();
