@@ -19,6 +19,10 @@ public class Feedreader {
         this.urls = urls;
     }
 
+    /**
+     * Get the articles from the RSS feed of the specified sources (Data.URLs)
+     * @return full list of articles (as HTML with links on the titles)
+     */
     public String getRssContent() {
 
         StringBuilder result = new StringBuilder();

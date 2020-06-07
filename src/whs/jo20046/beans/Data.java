@@ -10,7 +10,7 @@ public class Data {
     private Set<Integer> notFound = new LinkedHashSet<>();
     private String articles;
     private String notFoundUrls;
-    private int members;
+    private int sources;
 
     public Data() {
     }
@@ -59,12 +59,20 @@ public class Data {
         notFound.remove(val);
     }
 
+    public void clearNotFound() {
+        notFound.clear();
+    }
+
     public String getArticles() {
         return articles;
     }
 
     public void setArticles(String articles) {
         this.articles = articles;
+    }
+
+    public void clearArticles() {
+        articles = "";
     }
 
     public String getNotFoundUrls() {
@@ -75,11 +83,11 @@ public class Data {
         this.notFoundUrls = notFoundUrls;
     }
 
-    public int getMembers() {
-        return members;
+    public int getSources() {
+        return sources;
     }
 
-    public void setMembers(int members) {
-        this.members = members;
+    public void setSources(int sources) {
+        this.sources = sources;
     }
 }

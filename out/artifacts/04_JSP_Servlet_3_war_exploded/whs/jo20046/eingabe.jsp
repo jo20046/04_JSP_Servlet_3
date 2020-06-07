@@ -2,34 +2,35 @@
 <head>
     <script type='text/javascript'>
         function addFields() {
-            // Number of inputs to create
-            var number = document.getElementById("member").value;
+            // Number of inputs to create (max. 10)
+            const number = Math.min(10, document.getElementById("sources").value);
             // Container <div> where dynamic content will be placed
-            var container = document.getElementById("container");
+            const container = document.getElementById("container");
             // Clear previous contents of the container
             while (container.hasChildNodes()) {
                 container.removeChild(container.lastChild);
             }
-            for (i = 0; i < number; i++) {
-                // Append a node with a random text
-                container.appendChild(document.createTextNode("Member " + (i + 1)));
+            for (let i = 0; i < number; i++) {
+                // Append a node with text
+                container.appendChild(document.createTextNode("Quelle " + (i + 1) + ": "));
                 // Create an <input> element, set its type and name attributes
-                var input = document.createElement("input");
+                const input = document.createElement("input");
                 input.type = "text";
                 input.name = "url" + i;
                 container.appendChild(input);
-                // Append a line break
                 container.appendChild(document.createElement("br"));
             }
         }
     </script>
+    <title>Eingabe</title>
 </head>
 <body>
 <form method="post" action="${pageContext.request.contextPath}/check">
-    <input type="submit" value="Best&auml;tigen">
-    <input type="text" id="member" name="member" value="">Number of members: (max. 10)<br/>
-    <a href="#" id="filldetails" onclick="addFields()">Fill Details</a>
-    <div id="container"/>
+    <input type="submit" value="Best&auml;tigen"><br><br>
+    <label for="sources">Anzahl Quellen: (max. 10) </label>
+    <input type="text" id="sources" name="sources" value=""><br><br>
+    <a href="#" id="filldetails" onclick="addFields()">Quellen eingeben:</a>
+    <div id="container"></div>
 </form>
 </body>
 </html>

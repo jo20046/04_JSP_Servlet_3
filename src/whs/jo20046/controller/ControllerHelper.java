@@ -5,6 +5,7 @@ import whs.jo20046.feedreader.Feedreader;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -21,8 +22,9 @@ public class ControllerHelper extends HelperBase {
     @Override
     public void doPost() throws IOException {
 
-        // TODO: NullPointer an dieser Stelle wenn man zu oft sumbittet (?)
-        if (request.getSession().getAttribute("helper") == null) {
+
+        HttpSession session = request.getSession();
+        if (session.getAttribute("helper") == null) { // TODO: NullPointer an dieser Stelle wenn man zu oft sumbittet (?)
             request.getSession().setAttribute("helper", this);
         }
 
@@ -30,19 +32,30 @@ public class ControllerHelper extends HelperBase {
             request.getSession().setAttribute("Data", data);
         }
 
+        clearPreviousEntries();
         checkURLs();
-        if (allConnectionsOk) {
-            feed();
-        }
+        if (allConnectionsOk) getFeedContent();
         redirect();
     }
 
+    /**
+     * Clear URL-, NotFound-List and Articles-String. (For when the user goes back from the feed page to enter new sources)
+     */
+    private void clearPreviousEntries() {
+        data.clearUrls();
+        data.clearNotFound();
+        data.clearArticles();
+    }
+
+    /**
+     * Check if all entered URLs are valid sources. Sets "allConnectionsOk" accordingly.
+     */
     private void checkURLs() {
 
         allConnectionsOk = true;
 
-        data.setMembers(Integer.parseInt(request.getParameter("member")));
-        for (int i = 0, members = data.getMembers(); i < members; i++) {
+        data.setSources(Integer.parseInt(request.getParameter("sources")));
+        for (int i = 0, sources = data.getSources(); i < sources; i++) {
             data.addUrl(request.getParameter("url" + i));
         }
 
@@ -66,11 +79,18 @@ public class ControllerHelper extends HelperBase {
         }
     }
 
-    private void feed() {
+    /**
+     * Calls the Feedreader and saves content to Data.Articles
+     */
+    private void getFeedContent() {
         Feedreader feedreader = new Feedreader(data.getUrls());
         data.setArticles(feedreader.getRssContent());
     }
 
+    /**
+     * Redirects the to either the Output page (all sources were valid) or to the Hint page (1 or more sources didn't return OK earlier)
+     * @throws IOException
+     */
     private void redirect() throws IOException {
 
         if (allConnectionsOk) response.sendRedirect("whs/jo20046/ausgabe.jsp");
